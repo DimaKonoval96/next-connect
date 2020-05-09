@@ -1,0 +1,29 @@
+.add-post {
+	display: flex;
+	justify-content: center;
+	padding: 2rem 0;
+}
+.post-form {
+	width: 400px;
+	display: flex;
+	flex-direction: column;
+
+	.btn {
+		padding: 0.5rem 2rem;
+		font-size: 0.9rem;
+		cursor: pointer;
+		border: 0;
+		color: #333;
+		background: #ddd;
+		border-radius: 10px;
+	}
+
+	.btn-dark {
+		color: #fff;
+		background: #333;
+	}
+
+	textarea {
+		border-radius: 10px;
+	}
+}
