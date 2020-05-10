@@ -2,18 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { firestore } from '../../firebase';
 import './AddPostStyles.scss';
 const AddPost = () => {
-	const [post, setPost] = useState({});
+	const [post, postInput] = useState({});
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		firestore.collection('posts').add(post);
-
-		setPost({});
+		postInput({ text: '' });
 	};
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
-		setPost({ [name]: value });
+		postInput({ [name]: value });
 	};
 
 	return (
@@ -25,6 +24,7 @@ const AddPost = () => {
 					rows='6'
 					name='text'
 					onChange={handleChange}
+					value={post.text}
 				></textarea>
 				<input
 					type='submit'

@@ -2,11 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import PostsProvider from './Providers/PostsProvider';
 
 ReactDOM.render(
-	<React.StrictMode>
-		<App />
-	</React.StrictMode>,
+	<PostsProvider>
+		<React.StrictMode>
+			<App />
+		</React.StrictMode>
+	</PostsProvider>,
 	document.getElementById('root')
 );
 
