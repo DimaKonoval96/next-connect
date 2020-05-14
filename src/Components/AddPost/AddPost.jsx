@@ -6,7 +6,9 @@ const AddPost = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		firestore.collection('posts').add(post);
+		firestore
+			.collection('posts')
+			.add({ ...post, hearts: 0, createdAdd: new Date() });
 		postInput({ text: '' });
 	};
 

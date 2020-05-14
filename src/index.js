@@ -3,13 +3,16 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import PostsProvider from './Providers/PostsProvider';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 ReactDOM.render(
-	<PostsProvider>
-		<React.StrictMode>
-			<App />
-		</React.StrictMode>
-	</PostsProvider>,
+	<Router>
+		<PostsProvider>
+			<React.StrictMode>
+				<App />
+			</React.StrictMode>
+		</PostsProvider>
+	</Router>,
 	document.getElementById('root')
 );
 
