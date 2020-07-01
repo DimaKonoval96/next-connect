@@ -26,6 +26,11 @@ code {
 	background: #ddd;
 	border-radius: 10px;
 	margin-top: 1rem;
+	outline: 0;
+}
+
+.btn:hover {
+	background: #ccc;
 }
 
 .btn-dark {

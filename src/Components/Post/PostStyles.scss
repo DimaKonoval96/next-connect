@@ -8,9 +8,15 @@
 	min-height: 200px;
 	cursor: pointer;
 
+	a {
+		text-decoration: none;
+		color: #333;
+	}
+
 	.Post--content {
 		padding: 1rem;
 		padding-bottom: 3rem;
+
 		p {
 			word-wrap: break-word;
 			font-size: 0.9rem;
@@ -44,7 +50,7 @@
 				background-color: rgba(120, 120, 120, 0.4);
 			}
 
-			.heart-counter {
+			.heart-count {
 				color: #333;
 			}
 		}

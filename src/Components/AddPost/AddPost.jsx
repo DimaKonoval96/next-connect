@@ -8,7 +8,7 @@ const AddPost = () => {
 		e.preventDefault();
 		firestore
 			.collection('posts')
-			.add({ ...post, hearts: 0, createdAdd: new Date() });
+			.add({ ...post, hearts: 0, createdAt: new Date(), commentsCount: 0 });
 		postInput({ text: '' });
 	};
 
