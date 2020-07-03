@@ -36,3 +36,24 @@ exports.validateLoginData = (data) => {
 
 	return { errors, isValid: Object.keys(errors).length === 0 ? true : false };
 };
+
+exports.validateUserData = (data) => {
+	const userData = {};
+	if (data.bio.trim() !== '') {
+		userData.bio = data.bio;
+	}
+
+	if (data.location.trim() !== '') {
+		userData.location = data.location;
+	}
+
+	if (data.website.trim() !== '') {
+		if (data.website.startsWith('http')) {
+			userData.website = data.website;
+		} else {
+			userData.website = `http://${data.website}`;
+		}
+	}
+
+	return userData;
+};

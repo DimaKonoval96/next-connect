@@ -6,6 +6,7 @@ firebase.initializeApp(firebaseConfig);
 const {
 	validateLoginData,
 	validateSignupData,
+	validateUserData,
 } = require('../util/validators.jsx');
 // Login already an existing user
 exports.login = (req, res) => {
@@ -16,8 +17,6 @@ exports.login = (req, res) => {
 
 	const { errors, isValid } = validateLoginData(currUser);
 	if (!isValid) res.status(400).json(errors);
-
-	console.log(currUser);
 
 	return firebase
 		.auth()
@@ -145,4 +144,43 @@ exports.uploadImage = (req, res) => {
 			});
 	});
 	busboy.end(req.rawBody);
+};
+
+// Add details to user profile
+exports.addUserDetails = (req, res) => {
+	const userData = validateUserData(req.body);
+
+	db.doc(`users/${req.user.userName}`)
+		.update(userData)
+		.then(() => {
+			res.json({ message: 'Details added successfully' });
+		})
+		.catch((err) => {
+			console.error(err);
+			res.status(500).json({ error: err.code });
+		});
+};
+
+exports.getUserDetails = (req, res) => {
+	const userData = {};
+	db.doc(`users/${req.user.userName}`)
+		.get()
+		.then((userDoc) => {
+			userData.personalInfo = userDoc.data();
+			return db
+				.collection('likes')
+				.where('userName', '==', req.user.userName)
+				.get();
+		})
+		.then((snapshot) => {
+			userData.likes = [];
+			snapshot.forEach((likesDoc) => {
+				userData.likes.push(likesDoc.data());
+			});
+			res.json(userData);
+		})
+		.catch((err) => {
+			console.error(err);
+			res.status(500).json({ error: err.code });
+		});
 };

@@ -36,3 +36,28 @@ exports.createNewPost = (req, res) => {
 			res.status(400).json(err);
 		});
 };
+
+exports.getOnePost = (req, res) => {
+	const postData = {};
+	db.doc(`posts/${req.params.postId}`)
+		.get()
+		.then((doc) => {
+			if (!doc.exists) {
+				res.status(404).json({ error: "Post doesn't exist" });
+			}
+			postData.postInfo = doc.data();
+			postData.postId = doc.id;
+			return db.collection('comments').where('postId', '==', doc.id).get();
+		})
+		.then((snapshot) => {
+			postData.comments = [];
+			snapshot.forEach((doc) => {
+				postData.comments.push(doc.data());
+			});
+			res.json(postData);
+		})
+		.catch((err) => {
+			console.error(err);
+			res.status(500).json({ error: err.code });
+		});
+};
