@@ -47,7 +47,11 @@ exports.getOnePost = (req, res) => {
 			}
 			postData.postInfo = doc.data();
 			postData.postId = doc.id;
-			return db.collection('comments').where('postId', '==', doc.id).get();
+			return db
+				.collection('comments')
+				.where('postId', '==', doc.id)
+				.orderBy('createdAt', 'desc')
+				.get();
 		})
 		.then((snapshot) => {
 			postData.comments = [];
@@ -59,5 +63,29 @@ exports.getOnePost = (req, res) => {
 		.catch((err) => {
 			console.error(err);
 			res.status(500).json({ error: err.code });
+		});
+};
+
+exports.createNewComment = (req, res) => {
+	const newComment = {
+		body: req.body.body,
+		userName: req.user.userName,
+		imageUrl: req.user.imageUrl,
+		postId: req.params.postId,
+		createdAt: new Date(),
+	};
+
+	if (req.body.body.trim() === '') {
+		res.status(400).json({ error: 'Must not be empty' });
+	}
+
+	db.collection('comments')
+		.add(newComment)
+		.then(() => {
+			res.json({ message: 'Comment added successfully' });
+		})
+		.catch((err) => {
+			console.error(err);
+			res.status(500).json({ error: 'Something went wrong' });
 		});
 };
